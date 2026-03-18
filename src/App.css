@@ -1,0 +1,33 @@
+@font-face {
+  font-family: chineseeRocks; /* set name */
+  src: url(fonts/chinese-rocks-free.rg-regular.otf); /* url of the font */
+}
+
+#main_title {
+  display: flex;
+  justify-content: center;
+  margin: 90px;
+
+  font-size: 4.5em;
+  font-family: chineseeRocks;
+}
+
+.cannon_panel {
+  margin-top: 200px;
+  display: flex;
+  justify-content: center;
+}
+
+#menu_cannon {
+  transition: transform 0.3s ease;
+}
+
+#menu_cannon:hover {
+  transform: translateY(-20px);
+}
+
+.values_panel {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

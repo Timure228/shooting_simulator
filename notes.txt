@@ -1,0 +1,23 @@
+There are 6 cannons:
+* Smoothbore field cannon (6-pounder)
+* British 9-pounder cannon
+* 10.5 cm Feldhaubitze
+* 15 cm sFH
+* sFH18
+* M777
+
+Values for all cannons:
+* Crew experience (Child / Recruit / Gunner / Veteran / Elite)
+Child: 3X Reload modifier / Angle change 1-10 deg
+Recruit: 1.5X Reload modifier / Angle change 1-5 deg
+Gunner: 1X Reload modifier / Angle change 1-2 deg
+Veteran: 0.8X Reload modifier / Angle change 0.1 - 1 deg
+Elite: 0.6X Reload modifier / Angle change 0.1 - 0.5 deg
+
+Values for Smoothbore field cannon (6-pounder):
+* Elevation angle
+* Powder charge (full charge (4.5lb) / half charge(3lb) / quarter charge(1.5lb))
+* Projectile weight (6lb / 9lb / 12lb)
+* Muzzle velocity (calculated)
+* Crew experience
+
