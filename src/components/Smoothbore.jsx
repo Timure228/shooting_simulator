@@ -6,8 +6,6 @@ export default function Smoothbore() {
     let width = document.body.getBoundingClientRect().width
     let height = document.body.getBoundingClientRect().height
 
-    const [showCircle, setShowCircle] = useState(false);
-
     const [fire_button_src, setFire_button_src] = useState("src/assets/fire_button_cannon.png")
     const [cannon_src, setCannon_src] = useState("/src/assets/cannons/cannon_old.png")
 
@@ -71,32 +69,47 @@ export default function Smoothbore() {
 
         // Calculate the range
         let range = Math.abs(Math.floor(Math.pow(muzzle_velocity, 2) / 10 * Math.sin(2 * elevation_angle_rad)))
+        setRange(range)
         alert("Range: " + range + "m")
 
         // Calculate the Time of Flight
         let flight_time = ((2 * muzzle_velocity) * Math.sin(elevation_angle_rad)) / 10
+        setFlight_time(flight_time)
         alert("Estimated flight time " + flight_time + "seconds")
+
+        return { range, flight_time }
     }
 
-    async function fire(e) {
+    function fire(e) {
         e.preventDefault()
         alert("FIRE!!!")
         setFire_button_src("src/assets/fired_button_cannon.png")
-        calculate_coordinates()
-
+        const { range, flight_time } = calculate_coordinates();
+        const fuse_burning = new Audio("/src/assets/sounds/fuse_burning.mp3");
+        fuse_burning.play();
         setTimeout(() => {
             setFire_button_src("src/assets/fire_button_cannon.png")
             setCannon_src("src/assets/cannons/cannon_old_fire.png")
 
-            setShowCircle(true)
+            let shell = document.querySelector("#art_shell")
+            shell.style.opacity = 1
+            shell.style.transition = "transform " + flight_time + "s" + " linear"
+            shell.style.transform = "translateX(" + range + "px)"
+
+            const shot = new Audio("/src/assets/sounds/cannon_fire.mp3");
+            shot.play();
 
             setTimeout(() => {
+                fuse_burning.pause();
+
                 setCannon_src("src/assets/cannons/cannon_old.png");
                 setFire_button_src("src/assets/fire_button_cannon.png");
-                setShowCircle(false)
-            }, (flight_time * 1000) + 10000);
-        }, 700)
 
+                shell.style.transition = "transform 0s linear"
+                shell.style.transform = "translate(0px)"
+                shell.style.opacity = 0
+            }, parseInt((flight_time * 1000) + 2000));
+        }, 2000)
     }
     return (
         <>
@@ -128,20 +141,21 @@ export default function Smoothbore() {
             </div>
             <img src={fire_button_src} onClick={(e) => fire(e)} width={300}/>
             <img id="old_cannon_model" src={cannon_src} width={30}/>
-
-            {showCircle && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        left: `${range}px`,
-                        width: '30px',
-                        height: '30px',
-                        backgroundColor: 'black',
-                        borderRadius: '50%',
-                        margin: '20px auto'
-                    }}
-                />
-            )}
+            <div id="art_shell"
+                 style={{
+                     position: 'absolute',
+                     width: '5px',
+                     height: '5px',
+                     top: '343px',
+                     left: '36px',
+                     backgroundColor: 'black',
+                     borderRadius: '50%',
+                     margin: '20px auto',
+                     opacity: '0',
+                     transform: 'translateX(0px)',
+                     transition: 'left 0s linear'
+                }}
+            />
         </>
     )
 }
