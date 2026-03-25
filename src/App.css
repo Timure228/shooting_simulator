@@ -31,3 +31,10 @@
   justify-content: center;
   gap: 10px;
 }
+
+#old_cannon_model {
+  position: absolute;
+  left: 10px;
+  top: 350px;
+  rotate: -90deg;
+}
