@@ -82,7 +82,6 @@ export default function Smoothbore() {
 
     function fire(e) {
         e.preventDefault()
-        alert("FIRE!!!")
         setFire_button_src("src/assets/fired_button_cannon.png")
         const { range, flight_time } = calculate_coordinates();
         const fuse_burning = new Audio("/src/assets/sounds/fuse_burning.mp3");
@@ -96,11 +95,11 @@ export default function Smoothbore() {
             shell.style.transition = "transform " + flight_time + "s" + " linear"
             shell.style.transform = "translateX(" + range + "px)"
 
+            fuse_burning.pause();
             const shot = new Audio("/src/assets/sounds/cannon_fire.mp3");
             shot.play();
 
             setTimeout(() => {
-                fuse_burning.pause();
 
                 setCannon_src("src/assets/cannons/cannon_old.png");
                 setFire_button_src("src/assets/fire_button_cannon.png");
@@ -108,8 +107,18 @@ export default function Smoothbore() {
                 shell.style.transition = "transform 0s linear"
                 shell.style.transform = "translate(0px)"
                 shell.style.opacity = 0
+
+                let img = document.createElement("img")
+                img.src = "src/assets/craters/crater.png"
+                img.style.position = "absolute"
+                img.style.left = range + "px"
+                img.style.top = parseInt(shell.style.top) + "px"
+                img.style.width = "100px"
+
+                document.body.append(img)
+
             }, parseInt((flight_time * 1000) + 2000));
-        }, 2000)
+        }, 4000)
     }
     return (
         <>
