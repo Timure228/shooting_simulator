@@ -9,6 +9,7 @@ export default function Smoothbore() {
     const [fire_button_src, setFire_button_src] = useState("src/assets/fire_button_cannon.png")
     const [cannon_src, setCannon_src] = useState("/src/assets/cannons/cannon_old.png")
 
+    const [rotation_angle, setRotation_angle] = useState(0)
     const [muzzle_velocity, setMuzzle_velocity] = useState(0)
     const [range, setRange] = useState(0)
     const [flight_time, setFlight_time] = useState(0)
@@ -90,14 +91,29 @@ export default function Smoothbore() {
             setFire_button_src("src/assets/fire_button_cannon.png")
             setCannon_src("src/assets/cannons/cannon_old_fire.png")
 
+            const rad = rotation_angle * (Math.PI / 180); // convert to radians
+            const deltaX = range * Math.cos(rad);
+            const deltaY = range * Math.sin(rad);
+
             let shell = document.querySelector("#art_shell")
             shell.style.opacity = 1
             shell.style.transition = "transform " + flight_time + "s" + " linear"
-            shell.style.transform = "translateX(" + range + "px)"
+            shell.style.transform = `translate(${deltaX}px, ${deltaY}px)`
 
             fuse_burning.pause();
             const shot = new Audio("/src/assets/sounds/cannon_fire.mp3");
             shot.play();
+
+            setTimeout(() => {
+                let img = document.createElement("img")
+                img.src = "src/assets/craters/crater.png"
+                img.style.position = "absolute"
+                img.style.left = deltaX + "px"
+                img.style.top = parseInt(deltaY + 343) + "px"
+                img.style.width = "100px"
+
+                document.body.append(img)
+            }, flight_time * 1000)
 
             setTimeout(() => {
 
@@ -108,18 +124,10 @@ export default function Smoothbore() {
                 shell.style.transform = "translate(0px)"
                 shell.style.opacity = 0
 
-                let img = document.createElement("img")
-                img.src = "src/assets/craters/crater.png"
-                img.style.position = "absolute"
-                img.style.left = range + "px"
-                img.style.top = parseInt(shell.style.top) + "px"
-                img.style.width = "100px"
-
-                document.body.append(img)
-
             }, parseInt((flight_time * 1000) + 2000));
         }, 4000)
     }
+
     return (
         <>
             <div className="values_panel">
@@ -147,6 +155,12 @@ export default function Smoothbore() {
                     <option value="veteran">Veteran</option>
                     <option value="elite">Elite</option>
                 </select>
+                <label htmlFor="rotation_angle">Rotation Angle</label>
+                <input id="rotation_angle" onChange={(e) => {
+                    document.querySelector("#old_cannon_model").style.rotate = (e.target.value - 90) + "deg"
+                    setRotation_angle(e.target.value)
+                }}
+                       type="number" min={-90.} max={90.} step={0.1} defaultValue={0} />
             </div>
             <img src={fire_button_src} onClick={(e) => fire(e)} width={300}/>
             <img id="old_cannon_model" src={cannon_src} width={30}/>
