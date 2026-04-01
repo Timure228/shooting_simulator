@@ -2,7 +2,7 @@ import "/src/App.css"
 import { useState } from "react";
 
 
-export default function Smoothbore() {
+export default function Nine_Pounder() {
     let width = document.body.getBoundingClientRect().width
     let height = document.body.getBoundingClientRect().height
 
@@ -18,7 +18,7 @@ export default function Smoothbore() {
         // Get the Crew Experience
         let crew_exp = document.querySelector("#crew_experience").value
         if (crew_exp === "child") {
-            crew_exp = Math.random() * (1.3 - 0.7) + 0.8
+            crew_exp = Math.random() * (1.3 - 0.7) + 0.7
         }
         else if (crew_exp === "recruit") {
             crew_exp = Math.random() * (1.1 - 0.8) + 0.8
@@ -42,12 +42,12 @@ export default function Smoothbore() {
         // Get the Powder Charge
         let powder_charge = document.querySelector("#powder_charge").value
         if (powder_charge === "fullCharge") {
-            powder_charge = 2.7
+            powder_charge = 1.5
         }
         else if (powder_charge === "halfCharge") {
-            powder_charge = 1.4
+            powder_charge = 1.
         } else {
-            powder_charge = 0.7
+            powder_charge = 0.5
         }
         // Get the Projectile Weight
         let projectile_weight = document.querySelector("#projectile_weight").value
@@ -61,7 +61,7 @@ export default function Smoothbore() {
         }
 
         // Set The Cnstant Barrel Efficiency
-        let CONSTANT_BARREL_EFFICIENCY = 130.
+        let CONSTANT_BARREL_EFFICIENCY = 300.
 
         // Calculate Muzzle Velocity
         let muzzle_velocity = Math.floor((CONSTANT_BARREL_EFFICIENCY * (Math.sqrt(powder_charge / projectile_weight))) * crew_exp)
@@ -133,9 +133,9 @@ export default function Smoothbore() {
                 <input id="elevation_angle" type="number" min={0.5} max={15} step={0.1} defaultValue={0.5}/>
                 <label htmlFor="powder_charge">Powder Charge</label>
                 <select id="powder_charge">
-                    <option value="fullCharge">Full Charge(2.7kg)</option>
-                    <option value="halfCharge">Half Charge(1.4kg)</option>
-                    <option value="quarterCharge">Quarter Charge(0.7kg)</option>
+                    <option value="fullCharge">Full Charge(1.5kg)</option>
+                    <option value="halfCharge">Half Charge(1kg)</option>
+                    <option value="quarterCharge">Quarter Charge(0.5kg)</option>
                 </select>
                 <label htmlFor="projectile_weight">Projectile weight</label>
                 <select id="projectile_weight">
@@ -169,13 +169,14 @@ export default function Smoothbore() {
                      height: '5px',
                      top: '343px',
                      left: '36px',
+                     zIndex: '100',
                      backgroundColor: 'black',
                      borderRadius: '50%',
                      margin: '20px auto',
                      opacity: '0',
                      transform: 'translateX(0px)',
                      transition: 'left 0s linear'
-                }}
+                 }}
             />
         </>
     )
